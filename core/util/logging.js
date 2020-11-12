@@ -1,6 +1,6 @@
 /*
  * noVNC: HTML5 VNC client
- * Copyright (C) 2019 The noVNC Authors
+ * Copyright (C) 2012 Joel Martin
  * Licensed under MPL 2.0 (see LICENSE.txt)
  *
  * See README.md for usage and integration instructions.
@@ -10,24 +10,22 @@
  * Logging/debug routines
  */
 
-let _logLevel = 'warn';
+var _log_level = 'warn';
 
-let Debug = () => {};
-let Info = () => {};
-let Warn = () => {};
-let Error = () => {};
+var Debug = function (msg) {};
+var Info = function (msg) {};
+var Warn = function (msg) {};
+var Error = function (msg) {};
 
-export function initLogging(level) {
+export function init_logging (level) {
     if (typeof level === 'undefined') {
-        level = _logLevel;
+        level = _log_level;
     } else {
-        _logLevel = level;
+        _log_level = level;
     }
 
-    Debug = Info = Warn = Error = () => {};
-
+    Debug = Info = Warn = Error = function (msg) {};
     if (typeof window.console !== "undefined") {
-        /* eslint-disable no-console, no-fallthrough */
         switch (level) {
             case 'debug':
                 Debug = console.debug.bind(window.console);
@@ -40,17 +38,14 @@ export function initLogging(level) {
             case 'none':
                 break;
             default:
-                throw new window.Error("invalid logging type '" + level + "'");
+                throw new Error("invalid logging type '" + level + "'");
         }
-        /* eslint-enable no-console, no-fallthrough */
     }
-}
-
-export function getLogging() {
-    return _logLevel;
-}
-
+};
+export function get_logging () {
+    return _log_level;
+};
 export { Debug, Info, Warn, Error };
 
 // Initialize logging level
-initLogging();
+init_logging();

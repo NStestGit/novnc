@@ -1,6 +1,6 @@
 /*
  * noVNC: HTML5 VNC client
- * Copyright (C) 2020 The noVNC Authors
+ * Copyright 2017 Pierre Ossman for noVNC
  * Licensed under MPL 2.0 or any later version (see LICENSE.txt)
  */
 
@@ -16,13 +16,13 @@ if (typeof Object.assign != 'function') {
                 throw new TypeError('Cannot convert undefined or null to object');
             }
 
-            const to = Object(target);
+            var to = Object(target);
 
-            for (let index = 1; index < arguments.length; index++) {
-                const nextSource = arguments[index];
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
 
                 if (nextSource != null) { // Skip over if undefined or null
-                    for (let nextKey in nextSource) {
+                    for (var nextKey in nextSource) {
                         // Avoid bugs when hasOwnProperty is shadowed
                         if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
                             to[nextKey] = nextSource[nextKey];
@@ -38,10 +38,10 @@ if (typeof Object.assign != 'function') {
 }
 
 /* CustomEvent constructor (taken from MDN) */
-(() => {
-    function CustomEvent(event, params) {
+(function () {
+    function CustomEvent ( event, params ) {
         params = params || { bubbles: false, cancelable: false, detail: undefined };
-        const evt = document.createEvent( 'CustomEvent' );
+        var evt = document.createEvent( 'CustomEvent' );
         evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
         return evt;
     }
@@ -52,10 +52,3 @@ if (typeof Object.assign != 'function') {
         window.CustomEvent = CustomEvent;
     }
 })();
-
-/* Number.isInteger() (taken from MDN) */
-Number.isInteger = Number.isInteger || function isInteger(value) {
-    return typeof value === 'number' &&
-      isFinite(value) &&
-      Math.floor(value) === value;
-};

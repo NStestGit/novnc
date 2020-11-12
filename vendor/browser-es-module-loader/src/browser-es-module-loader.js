@@ -1,4 +1,5 @@
 import RegisterLoader from 'es-module-loader/core/register-loader.js';
+import { InternalModuleNamespace as ModuleNamespace } from 'es-module-loader/core/loader-polyfill.js';
 
 import { baseURI, global, isBrowser } from 'es-module-loader/core/common.js';
 import { resolveIfNotPlain } from 'es-module-loader/core/resolve.js';
@@ -65,7 +66,7 @@ if (typeof document != 'undefined' && document.getElementsByTagName) {
   }
 
   // simple DOM ready
-  if (document.readyState !== 'loading')
+  if (document.readyState === 'complete')
     setTimeout(ready);
   else
     document.addEventListener('DOMContentLoaded', ready, false);
@@ -139,16 +140,9 @@ var WorkerPool = function (script, size) {
   var current = document.currentScript;
   // IE doesn't support currentScript
   if (!current) {
-    // Find an entry with out basename
+    // We should be the last loaded script
     var scripts = document.getElementsByTagName('script');
-    for (var i = 0; i < scripts.length; i++) {
-      if (scripts[i].src.indexOf("browser-es-module-loader.js") !== -1) {
-        current = scripts[i];
-        break;
-      }
-    }
-    if (!current)
-      throw Error("Could not find own <script> element");
+    current = scripts[scripts.length - 1];
   }
   script = current.src.substr(0, current.src.lastIndexOf("/")) + "/" + script;
   this._workers = new Array(size);

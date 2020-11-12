@@ -1,6 +1,6 @@
 /*
  * noVNC: HTML5 VNC client
- * Copyright (C) 2018 The noVNC Authors
+ * Copyright (C) 2017 Pierre Ossman for Cendio AB
  * Licensed under MPL 2.0 or any later version (see LICENSE.txt)
  */
 
@@ -13,8 +13,6 @@
  * See https://www.w3.org/TR/uievents-code/ for possible codes.
  * See https://www.w3.org/TR/uievents-key/ for possible values.
  */
-
-/* eslint-disable key-spacing */
 
 export default {
 

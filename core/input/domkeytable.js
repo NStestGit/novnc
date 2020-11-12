@@ -1,6 +1,6 @@
 /*
  * noVNC: HTML5 VNC client
- * Copyright (C) 2018 The noVNC Authors
+ * Copyright (C) 2017 Pierre Ossman for Cendio AB
  * Licensed under MPL 2.0 or any later version (see LICENSE.txt)
  */
 
@@ -13,25 +13,28 @@ import KeyTable from "./keysym.js";
  * See https://www.w3.org/TR/uievents-key/ for possible values.
  */
 
-const DOMKeyTable = {};
+var DOMKeyTable = {};
 
-function addStandard(key, standard) {
-    if (standard === undefined) throw new Error("Undefined keysym for key \"" + key + "\"");
-    if (key in DOMKeyTable) throw new Error("Duplicate entry for key \"" + key + "\"");
+function addStandard(key, standard)
+{
+    if (standard === undefined) throw "Undefined keysym for key \"" + key + "\"";
+    if (key in DOMKeyTable) throw "Duplicate entry for key \"" + key + "\"";
     DOMKeyTable[key] = [standard, standard, standard, standard];
 }
 
-function addLeftRight(key, left, right) {
-    if (left === undefined) throw new Error("Undefined keysym for key \"" + key + "\"");
-    if (right === undefined) throw new Error("Undefined keysym for key \"" + key + "\"");
-    if (key in DOMKeyTable) throw new Error("Duplicate entry for key \"" + key + "\"");
+function addLeftRight(key, left, right)
+{
+    if (left === undefined) throw "Undefined keysym for key \"" + key + "\"";
+    if (right === undefined) throw "Undefined keysym for key \"" + key + "\"";
+    if (key in DOMKeyTable) throw "Duplicate entry for key \"" + key + "\"";
     DOMKeyTable[key] = [left, left, right, left];
 }
 
-function addNumpad(key, standard, numpad) {
-    if (standard === undefined) throw new Error("Undefined keysym for key \"" + key + "\"");
-    if (numpad === undefined) throw new Error("Undefined keysym for key \"" + key + "\"");
-    if (key in DOMKeyTable) throw new Error("Duplicate entry for key \"" + key + "\"");
+function addNumpad(key, standard, numpad)
+{
+    if (standard === undefined) throw "Undefined keysym for key \"" + key + "\"";
+    if (numpad === undefined) throw "Undefined keysym for key \"" + key + "\"";
+    if (key in DOMKeyTable) throw "Duplicate entry for key \"" + key + "\"";
     DOMKeyTable[key] = [standard, standard, standard, numpad];
 }
 
@@ -43,10 +46,12 @@ addStandard("CapsLock", KeyTable.XK_Caps_Lock);
 addLeftRight("Control", KeyTable.XK_Control_L, KeyTable.XK_Control_R);
 // - Fn
 // - FnLock
+addLeftRight("Hyper", KeyTable.XK_Super_L, KeyTable.XK_Super_R);
 addLeftRight("Meta", KeyTable.XK_Super_L, KeyTable.XK_Super_R);
 addStandard("NumLock", KeyTable.XK_Num_Lock);
 addStandard("ScrollLock", KeyTable.XK_Scroll_Lock);
 addLeftRight("Shift", KeyTable.XK_Shift_L, KeyTable.XK_Shift_R);
+addLeftRight("Super", KeyTable.XK_Super_L, KeyTable.XK_Super_R);
 // - Symbol
 // - SymbolLock
 
@@ -70,10 +75,7 @@ addNumpad("PageUp", KeyTable.XK_Prior, KeyTable.XK_KP_Prior);
 // 2.5. Editing Keys
 
 addStandard("Backspace", KeyTable.XK_BackSpace);
-// Browsers send "Clear" for the numpad 5 without NumLock because
-// Windows uses VK_Clear for that key. But Unix expects KP_Begin for
-// that scenario.
-addNumpad("Clear", KeyTable.XK_Clear, KeyTable.XK_KP_Begin);
+addStandard("Clear", KeyTable.XK_Clear);
 addStandard("Copy", KeyTable.XF86XK_Copy);
 // - CrSel
 addStandard("Cut", KeyTable.XF86XK_Cut);
@@ -195,8 +197,7 @@ addStandard("F35", KeyTable.XK_F35);
 addStandard("Close", KeyTable.XF86XK_Close);
 addStandard("MailForward", KeyTable.XF86XK_MailForward);
 addStandard("MailReply", KeyTable.XF86XK_Reply);
-addStandard("MailSend", KeyTable.XF86XK_Send);
-// - MediaClose
+addStandard("MainSend", KeyTable.XF86XK_Send);
 addStandard("MediaFastForward", KeyTable.XF86XK_AudioForward);
 addStandard("MediaPause", KeyTable.XF86XK_AudioPause);
 addStandard("MediaPlay", KeyTable.XF86XK_AudioPlay);
@@ -220,9 +221,11 @@ addStandard("SpellCheck", KeyTable.XF86XK_Spell);
 
 // - AudioBalanceLeft
 // - AudioBalanceRight
+// - AudioBassDown
 // - AudioBassBoostDown
 // - AudioBassBoostToggle
 // - AudioBassBoostUp
+// - AudioBassUp
 // - AudioFaderFront
 // - AudioFaderRear
 // - AudioSurroundModeNext
@@ -243,12 +246,12 @@ addStandard("MicrophoneVolumeMute", KeyTable.XF86XK_AudioMicMute);
 
 // 2.14. Application Keys
 
-addStandard("LaunchApplication1", KeyTable.XF86XK_MyComputer);
-addStandard("LaunchApplication2", KeyTable.XF86XK_Calculator);
+addStandard("LaunchCalculator", KeyTable.XF86XK_Calculator);
 addStandard("LaunchCalendar", KeyTable.XF86XK_Calendar);
 addStandard("LaunchMail", KeyTable.XF86XK_Mail);
 addStandard("LaunchMediaPlayer", KeyTable.XF86XK_AudioMedia);
 addStandard("LaunchMusicPlayer", KeyTable.XF86XK_Music);
+addStandard("LaunchMyComputer", KeyTable.XF86XK_MyComputer);
 addStandard("LaunchPhone", KeyTable.XF86XK_Phone);
 addStandard("LaunchScreenSaver", KeyTable.XF86XK_ScreenSaver);
 addStandard("LaunchSpreadsheet", KeyTable.XF86XK_Excel);

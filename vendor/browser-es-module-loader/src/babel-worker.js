@@ -1,10 +1,11 @@
-// Polyfills needed for Babel to function
-require("core-js");
+/*import { transform as babelTransform } from 'babel-core';
+import babelTransformDynamicImport from 'babel-plugin-syntax-dynamic-import';
+import babelTransformES2015ModulesSystemJS from 'babel-plugin-transform-es2015-modules-systemjs';*/
 
-var babelTransform = require('@babel/core').transform;
-var babelTransformDynamicImport = require('@babel/plugin-syntax-dynamic-import');
-var babelTransformModulesSystemJS = require('@babel/plugin-transform-modules-systemjs');
-var babelPresetEnv = require('@babel/preset-env');
+// sadly, due to how rollup works, we can't use es6 imports here
+var babelTransform = require('babel-core').transform;
+var babelTransformDynamicImport = require('babel-plugin-syntax-dynamic-import');
+var babelTransformES2015ModulesSystemJS = require('babel-plugin-transform-es2015-modules-systemjs');
 
 self.onmessage = function (evt) {
     // transform source with Babel
@@ -15,8 +16,7 @@ self.onmessage = function (evt) {
       moduleIds: false,
       sourceMaps: 'inline',
       babelrc: false,
-      plugins: [babelTransformDynamicImport, babelTransformModulesSystemJS],
-      presets: [ [ babelPresetEnv, { targets: 'ie >= 11' } ] ],
+      plugins: [babelTransformDynamicImport, babelTransformES2015ModulesSystemJS],
     });
 
     self.postMessage({key: evt.data.key, code: output.code, source: evt.data.source});

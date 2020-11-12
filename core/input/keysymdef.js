@@ -7,7 +7,7 @@
 
 /* Functions at the bottom */
 
-const codepoints = {
+var codepoints = {
     0x0100: 0x03c0, // XK_Amacron
     0x0101: 0x03e0, // XK_amacron
     0x0102: 0x01c3, // XK_Abreve
@@ -670,14 +670,14 @@ const codepoints = {
 };
 
 export default {
-    lookup(u) {
+    lookup : function(u) {
         // Latin-1 is one-to-one mapping
         if ((u >= 0x20) && (u <= 0xff)) {
             return u;
         }
 
         // Lookup table (fairly random)
-        const keysym = codepoints[u];
+        var keysym = codepoints[u];
         if (keysym !== undefined) {
             return keysym;
         }
